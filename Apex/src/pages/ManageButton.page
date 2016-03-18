@@ -1,0 +1,54 @@
+<apex:page showheader="False" controller="ManageExtension">
+<apex:image id="theImage" value="{!$Resource.a}" width="1100" height="200"/>  
+  <apex:form >
+        <apex:pageBlock title="Header" >
+        <c:accountheader />
+        </apex:pageBlock>
+        <apex:pageBlock title="Hello {!$User.FirstName}!" >
+        You are viewing the "Contact List" of {!account} account.
+        </apex:pageBlock>
+        <apex:commandButton action="/apex/Manage" value="Return"/>
+       <!--  <apex:detail relatedlist="False"/>-->
+
+       <apex:actionFunction action="{!alphabeticalSearch}" name="actionFunctionContacts" rerender="actionfunctionTable,footer" />
+
+       <apex:pageBlock title="Contacts">
+          <table align="right">
+               <tr>
+                  <apex:repeat value="{!listSearchAlphabet}" var="alphabet">
+                     <td>
+                         <apex:commandLink onClick="actionFunctionContacts()"  >
+                            {!alphabet}
+                            <apex:param value="{!alphabet}" name="SearchLetter" assignTo="{!SearchVar}"/>
+                         </apex:commandLink>
+                     </td>
+                   </apex:repeat>
+               </tr>
+          </table>
+      
+       <apex:pageBlockTable value="{!listSearchAlphabeticContact }" var="contact" id="actionfunctionTable" columns="5">
+             <apex:column headerValue="Name" value="{!contact.Name}"/>
+             <apex:column headerValue="Title" value="{!contact.Title}"/>
+             <apex:column headerValue="Email" value="{!contact.Email}"/>
+             <apex:column headerValue="Phone"  value="{!contact.Phone}"/>
+             <apex:column headerValue="Action">
+                <apex:commandLink onclick="delRemoteContact('{!contact.Id}')" value="Delete" />
+             </apex:column>
+       </apex:pageBlockTable>
+       
+       </apex:pageBlock>
+       
+       
+  </apex:form>
+   
+       <apex:pageBlock title="Footer" id="footer">
+            <c:accountfooter Count="{!listSearchAlphabeticContact.size}"></c:accountfooter>
+       </apex:pageBlock>
+      
+       <script>
+            actionFunctionContacts();
+       </script>            
+       <apex:includescript value="{!URLFOR($Resource.vfremotingFile,'/vfremoting.js')}"/>
+       
+      <c:accountheader Count="{!CountContact}"></c:accountheader> 
+</apex:page>

@@ -1,67 +1,87 @@
 @isTest
-public class DomainTriggerTest 
+
+public class TestclassDomain
 {
-   	static testmethod void testContactTrigger()
+@isTest
+ static void testContactTrigger_one()
     {
-        Contact c =new Contact();
-        c.LastName= 'Sonu';  
-        c.Email='Ab@gmail.com';
-        c.MobilePhone= '2234234';
-        insert c;   
-        System.assertEquals(c.Lastname, 'Sonu'); 
-        
-        Account a =new Account();
-        a.Name= 'nikhil';  
-        a.DomainName__c= 'gmail.com';
-        insert a;   
-        System.assertEquals(a.DomainName__c, 'gmail.com');              
+    Account a =new Account();
+      a.Name='Admin';
+      a.Domain__c='gmail.com';
+      insert a;
+        System.assertEquals(a.name, 'Admin');    
+       Contact c =new Contact();
+       c.LastName= 'Sonu';  
+       c.Email='Ab@gmail.com';
+       c.MobilePhone= '2234234';
+       try{
+      insert c;
+      }
+      catch(exception e){
+      System.debug(e);
+      }      
+       System.assertEquals(c.Lastname, 'Sonu');  
+            
+    }
+@isTest
+ static  void testContactTrigger_two()
+    {
+   List<Account> AccList =new List <Account>();
+      Account ac=new Account(name='abc',Domain__c='yahoo.com');
+      AccList.add(ac);
+      insert AccList;
+      Contact c =new Contact();
+      c.LastName= 'Sonu';  
+      c.Email='Ab@yahoo.com';
+      c.MobilePhone= '2234234';
+      try{
+      insert c;
+      }
+      catch(exception e){
+      System.debug(e);
+      }   
+       System.assertEquals(c.Lastname, 'Sonu');  
+            
+    }
+    @isTest
+ static  void testContactTrigger_three()
+    {
+   List<Account> AccList =new List <Account>();
+      Account ac=new Account(name='abc',Domain__c='yahoo.com');
+      AccList.add(ac);
+      insert AccList;
+      Contact c =new Contact();
+      c.LastName= 'Sonu';  
+      c.Email='Ab@gmail.com';
+       try{
+      insert c;
+      }
+      catch(exception e){
+      System.debug(e);
+      }     
+       System.assertEquals(c.Lastname, 'Sonu');  
+            
     }
     
-    static testmethod void testContactTrigger_two()
-    {
-   	    List<Account> AccList =new List <Account>();
-        Account ac=new Account(name='abc',DomainName__c='yahoo.com');
-	    AccList.add(ac);
-	    insert AccList;
-	    Contact c =new Contact();
-	    c.LastName= 'Sonu';  
-	    c.Email='Ab@yahoo.com';
-	    c.MobilePhone= '2234234';
-	    insert c;   
-	    System.assertEquals(c.Lastname, 'Sonu');
-    }
     
-    static testmethod void testContactTrigger_three()
+    @isTest
+     static  void testContactTrigger_four()
     {
-        List<Account> AccList =new List <Account>();
-	    Account ac=new Account(name='abc',DomainName__c='yahoo.com');
-	    AccList.add(ac);
-	    insert AccList;
-	    Contact c =new Contact();
-	    c.LastName= 'Sonu';  
-	    c.Email='Ab@gmail.com';
-	    insert c;   
-	    System.assertEquals(c.Lastname, 'Sonu');        
+   List<Account> AccList =new List <Account>();
+      Account ac=new Account(name='abc',Domain__c='gmail.com');
+      AccList.add(ac);
+      insert AccList;
+      Contact c =new Contact();
+      c.LastName= 'Sonu';  
+      c.Email=' ';
+      try{
+      insert c;
+      }
+      catch(exception e){
+      System.debug(e);
+      }     
+       System.assertEquals(c.Lastname, 'Sonu');  
+            
     }
-    
-    static testmethod void testContactTrigger_four()
-    {
-        try
-        {
-	   	    List<Account> AccList =new List <Account>();
-	        Account ac=new Account(name='abc',DomainName__c='gmail.com');
-	        AccList.add(ac);
-	        insert AccList;
-	        Contact c =new Contact();
-	        
-	        c.LastName= 'Sonu';  
-	        c.Email=' ';
-	        insert c;   
-	        System.assertEquals(c.Lastname, 'Sonu');  
-        }
-        catch(exception e)
-        {
-            system.debug('Email field cant be empty');
-        }
-    }
+
 }

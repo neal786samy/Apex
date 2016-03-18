@@ -1,0 +1,52 @@
+<apex:page standardController="Account" sidebar="false" extensions="ManageExtension" >
+<apex:image id="theImage" value="{!$Resource.b}" width="1100" height="200"/>
+  <apex:form >
+      <apex:pagemessages id="showmsg"> </apex:pagemessages> 
+       <apex:pageBlock >
+           <apex:outputLabel for="searchKeyId" >Enter Account Name : </apex:outputLabel>
+           <apex:inputText value="{!currentName}" id="searchKeyId" />
+           <apex:commandButton action="{!searchAccount}" value="Search" id="saveButton" reRender="renderTable,showmsg"/>
+           <apex:commandlink action="{!clearAccount}" value="Clear" id="clearButton" reRender="renderTable"/>
+           <apex:outputpanel id="renderTable">
+               <apex:pageBlock rendered="{!flag}" >
+                    <apex:pageBlockTable value="{!listSearchAccount}" var="listSearchResult" columns="4" >
+                        <apex:column headerValue="Account Name">
+                            <apex:commandLink action="/{!listSearchResult.Id}" value="{!listSearchResult.Name}"/>
+                        </apex:column>
+                        
+                        <apex:column headerValue="Email" value="{!listSearchResult.Email__c}"/>
+                        <apex:column headerValue="Phone" value="{!listSearchResult.Phone}"/>
+                        <apex:column headerValue="Website" />
+                        
+                                       
+                        <!--/apex:column-->
+                    </apex:pageBlockTable>
+               </apex:pageBlock>
+           </apex:outputpanel>
+       </apex:pageBlock>
+    
+       <apex:pageBlock title="Accounts Information" >
+            <apex:pageBlockTable value="{!lstAccount}" var="objAccount" columns="5" >
+                <apex:column headerValue="Account Name" >
+                    <apex:commandLink action="/{!objAccount.Id}" value="{!objAccount.Name}"/>
+                </apex:column>
+                <apex:column value="{!objAccount.Email__c}"/>
+                <apex:column value="{!objAccount.Phone}"/>
+                <apex:column headerValue="Account Name" >
+                
+                <apex:commandLink value="{!objAccount.Website}" onClick="window.open('{!objAccount.Website}','_blank');"/>
+                </apex:column>
+                <apex:column >
+                    <apex:commandButton value="Manage Contact" action="/apex/ManageButton?id={!objAccount.Id}">
+                         <apex:param name="currentId" value="{!objAccount.Id}"  />
+                    </apex:commandButton>
+                </apex:column>  
+            </apex:pageBlockTable>
+       </apex:pageBlock>
+       
+       <apex:pageBlock title="Footer">
+            <c:accountheader Count="{!CountAccount}"></c:accountheader>
+       </apex:pageBlock>
+ 
+  </apex:form>  
+</apex:page>

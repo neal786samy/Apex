@@ -17,26 +17,30 @@ public class AggregateFunctions
            system.debug('Result is ---- > '+newMap);
     }
     
-    public void aggregateLead()
+    public void AFTwo()
     {
-        list<AggregateResult> leadList = new List<AggregateResult>([SELECT count(id) 
-                                                                      FROM lead GROUP BY leadsource HAVING COUNT(leadsource)>10]);
-        system.debug('leadlist===='+leadlist);
+        list<AggregateResult> leadList = new List<AggregateResult>([SELECT count(id) FROM lead GROUP BY leadsource HAVING COUNT(leadsource)>10]);
+        system.debug(leadlist);
     }
     
-    public void aggregateLeadSource()
+    public void AFThree()
     {
-        list<AggregateResult> leadList = new List<AggregateResult>([SELECT count(name),
-                                                                           leadsource , 
-                                                                           status 
-                                                                      FROM lead group by leadsource , status]);
-        map<object,object> inside = new map<object,object>();
-        map<object,map<object,object>> outside = new map<object,map<object,object>>();
-        
-        for(AggregateResult resItr : leadList)
-        {
-            inside.put(resItr.get('Leadsource'),a.get('expr0'));
-            outside.put(resItr.get('Status'),inside);
-       
-        }
+        List<AggregateResult> arLeadByStatusBySource = [SELECT status,leadsource,count(name) FROM Lead GROUP BY status,leadsource];
+
+		List<AggregateResult> arLeadByStatus = [SELECT status FROM Lead GROUP BY status];
+
+		Map<String,Map<String,Integer>> mapLeadByStatusBySource = new Map<String,Map<String,Integer>>{};
+		for(AggregateResult eachArrSt:arLeadByStatus) 
+		{
+        	Map<String,Integer> innerMap = new Map<String,Integer>{};
+    		for(AggregateResult eachAggRes : arLeadByStatusBySource)
+    		{
+        	   if(((String)eachArrSt.get('Status'))==((String)eachAggRes.get('Status'))){
+        	   innerMap.put((String)eachAggRes.get('LeadSource'),(Integer)eachAggRes.get('expr0'));
+        	}
+    	}
+ 		    mapLeadByStatusBySource.put((String)eachArrSt.get('Status'),innerMap);
+	}
+	    system.debug(mapLeadByStatusBySource);   
+    }
 }

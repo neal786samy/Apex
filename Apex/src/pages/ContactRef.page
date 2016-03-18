@@ -1,0 +1,61 @@
+<apex:page standardController="Account" sidebar="false" extensions="ManipulateContactExtension" action="{!displayAlphabeticalSearch}">
+<apex:image id="theImage" value="{!$Resource.a}" width="1100" height="200"/>  
+<apex:includescript value="{!URLFOR($Resource.vfremotingFile,'/vfremoting.js')}"/>
+  
+    <apex:form >
+        <apex:actionFunction action="{!displayAlphabeticalSearch}" name="searchAlphabetContact" rerender="ct">
+            <apex:param name="search" value="" assignTo="{!alphabetVar}"/>
+        </apex:actionFunction>
+        <apex:pageBlock >
+            <table>
+                <tr>
+                    <apex:repeat value="{!alphabetList}" var="singleChar">
+                        <td><apex:outputLink onclick="scriptDisplay('{!singleChar}');return false;">{!singleChar}</apex:outputLink></td>
+                    </apex:repeat>
+                </tr>
+            </table>
+        </apex:pageBlock>
+        <apex:pageBlock title="Contacts Information"  >
+            <apex:pageBlockTable value="{!lstAccount}" var="objAcc" columns="1" rows="1" title="Current Account" >
+                <apex:column value="{!objAcc.Name}" />   
+            </apex:pageBlockTable>
+          </apex:pageblock>
+          <apex:pageblock >   
+            <apex:pageBlockTable id="ct" value="{!lstContact }" var="objOfContact">    
+                <apex:column value="{!objOfContact.Name}"/>
+                <apex:column value="{!objOfContact.Phone}"/>
+                <apex:column value="{!objOfContact.Email}"/>
+           
+            </apex:pageBlockTable>
+            <c:CountComponent />
+            <apex:pageBlockSection columns="2">
+                        <apex:commandButton value="Return" action="/apex/AccountManagerVF"/>                    
+                        <apex:commandButton value="Delete all contacts" action="{!deleteCon}" />
+           
+            </apex:pageBlockSection>           
+        </apex:pageBlock>
+    <!--/apex:form--> 
+    <!--apex:form -->  
+        <apex:pageBlock >      
+            <apex:pageBlockTable value="{!LstContact}" var="contact" id="conttable">
+                     <apex:column headerValue="DELETE">
+                     <apex:commandLink onclick="DeleteContact('{!contact.id}')"  immediate="true" >Del
+                        <apex:param value="{!contact.id}" name="Contact_Id"  assignTo="{!recid}" id="ssm"/>
+                     </apex:commandLink>
+                        </apex:column>     
+                     
+                        <apex:column value="{!contact.name}" id="sss"/>                
+            
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+        
+        <script>
+        function scriptDisplay(searchVariable)
+        {
+            searchAlphabetContact(searchVariable);
+            
+        }
+    </script>
+    </apex:form>
+    <apex:iframe src="alpha"/>
+</apex:page>

@@ -1,0 +1,7 @@
+<apex:component controller="ManageExtension">
+    <apex:attribute name="count" type="String" description="TODO: Describe me"/>
+  
+    <apex:outputText value="Count = {!CountAccount}" style="color:green;"/>
+    <apex:outputText value="Count = {!CountContact}" style="color:red;"/>
+  
+</apex:component>

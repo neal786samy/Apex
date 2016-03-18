@@ -1,16 +1,49 @@
-<apex:page standardController="Account" >
-    
-    <apex:form >    
-
+<apex:page standardController="Account"  recordSetVar="rv" extensions="contactManage">
+                        
+    <apex:form id="f1">
+   
+        <apex:pageBlock >
+        
+            <apex:pageBlockSection >              
+                <!--apex:inputField value="{!account.name}"/-->
+                <apex:inputText value="{!searchName}" label="Search Name" />
+                <apex:pagemessages id="showmsg"> </apex:pagemessages>                
+                <!--apex:commandButton value="Search" action="{!find}" reRender="searchTable"/-->
+                <apex:commandButton value="Find" action="{!find}" onkeypress="return noenter(event)" reRender="tbl,showmsg" status="mystatus"/> <br/>
+                <apex:commandLink value="Clear the search results" action="{!clear}" />                                           
+                </apex:pageBlockSection>
+                <apex:pageBlockSection id="pb">
+                <apex:actionStatus id="mystatus" startText="Loading……">
+                <apex:facet name="stop">
+                <apex:pageBlock id="out">
+                <apex:pageBlockTable value="{!searchList}" var="c" id="tbl" >
+                <apex:column headerValue="Name" value="{!c.name}"/>
+                <apex:column headerValue="phone" value="{!c.phone}"/>
+                <apex:column headerValue="Email" value="{!c.Email__c}"/>
+                <apex:column headerValue="Source" value="{!c.website}"/>
+                <apex:column ><apex:commandButton onClick="window.open('apex/ContactRef?id={!c.id}','_blank');"  value="Manage Contacts" id="PValue">
+                <apex:param name="currentId" value="{!c.Id}"/>                          
+                </apex:commandbutton>
+                </apex:column>
+                </apex:pageBlockTable><br/>
+                 </apex:pageBlock>
+                </apex:facet>
+                </apex:actionStatus>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form> 
+    <apex:form >
     <apex:pageBlock title="Account Manager View">
     
-   <apex:commandButton value="Return" action="{!URLFOR($Action.Account.List, $ObjectType.Account)}"/>
+    <apex:commandButton value="Return" action="{!URLFOR($Action.Account.List, $ObjectType.Account)}"/>
     <apex:pageBlockSection title="Account Details" columns="1">
-
-        <apex:pageBlockTable value="{!Account}"  var="item">
+  
+        <apex:pageBlockTable value="{!lstAccount}" var="item">
         
         <apex:column headerValue="Action"> 
-                <apex:commandLink value="{!item.Name}" onClick="window.open('/{!item.Id}','_blank');"/>
+                <apex:commandLink value="{!item.Name}" onClick="window.open('/{!item.Id}','_blank');" >
+                <apex:param value="{!item.Id}" name="idForConts" assignTo="{!recid}"/>
+                </apex:commandLink>
                 <apex:commandLink value="{!item.Website}" onClick="window.open('/{!item.Website}','_blank');"/>
                  </apex:column> 
         
@@ -22,14 +55,40 @@
             
             <apex:column value="{!item.website}"/>
             
-            <apex:column ><apex:commandButton onClick="window.open('apex/ContactVF?id={!item.Id}','_blank');"  value="Manage Contacts" id="Value"/></apex:column>             
-              
+            <apex:column ><apex:commandButton onClick="window.open('apex/ContactRef?id={!item.id}','_blank');"  value="Manage Contacts" id="PValue">
+            <apex:param name="currentId" value="{!item.Id}"/>            
+             </apex:commandbutton>
+              </apex:column>
             </apex:pageBlockTable>
-            
-             </apex:pageBlockSection>          
-      
-    </apex:pageBlock>
+             </apex:pageBlockSection>
 
+            
+
+    <!--apex:facet name="footer">Number of available Accounts: {!countAccount}/-->  
+    <c:VisualForceComponent />
+    <!--c:VisualForceComponent myValue="My value" borderColor="red"/-->
+
+    </apex:pageBlock>
+     
     </apex:form>
+    <script type='text/javascript'>
+
+        function noenter(ev)  {
+
+            if (window.event && window.event.keyCode == 13 || ev.which == 13) {
+
+                find();
+
+                return false;
+
+             } else {
+
+                 return true;
+
+             }
+
+         }
+         
+    </script>
 
 </apex:page>
