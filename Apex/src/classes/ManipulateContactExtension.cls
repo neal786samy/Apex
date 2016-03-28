@@ -14,7 +14,7 @@ private List<Account> lstAccount=new List<Account>();
         alphabetVar =ApexPages.currentPage().getParameters().get('VarAlpha');
         //flag=ApexPages.currentPage().getParameters().get(false);
         alphabetList=new List<String>{'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','All'};
-        alphabetVar='B'; 
+        alphabetVar='All'; 
         //flag=false;
         displayContactList=new List<Contact>([select Id,Name,Phone,Email from Contact where AccountId=:currentId ORDER BY Name ]); 
         lstContact=new List<Contact>();

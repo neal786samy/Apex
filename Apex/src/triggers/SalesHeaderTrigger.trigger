@@ -1,6 +1,7 @@
 trigger SalesHeaderTrigger on SalesHeader__c (after insert, after update) 
 {
-   
+    Trigge_Setting__c s = Trigge_Setting__c.getInstance( UserInfo.GetUserID() ); //or Profile
+    if( s.Disable_Triggers__c ) return;
     // for loop to iterate the values triggers by operation
     
     list<Case> newCaseList = new list<Case>();

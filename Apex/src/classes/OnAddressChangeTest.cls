@@ -32,9 +32,12 @@ public class OnAddressChangeTest
         
         list<Account> accLst=new list<Account>();
         Account account=new Account();
-        account.Id=accountLst[2].id;
+        account.Id=accountLst[0].id;
         account.ShippingCity='Pune';
-        account.BillingCity='Pune';      
+        account.BillingCity='Pune'; 
+        account.ShippingState='MH';
+        account.ShippingStreet='Cam';
+        account.ShippingCountry='India';     
         account.BillingState='MH';
         account.BillingStreet='Cam';
         account.BillingCountry='India';
@@ -53,13 +56,13 @@ public class OnAddressChangeTest
                                                    City__c,Country__c 
                                               from Universal_container__c];
                                            system.debug('-->'+ucLst);
-        system.assertequals(true,ucLst[2].BillingAddress_del__c,'not true');
-        system.assertequals(true,ucLst[2].Active__c,'not true');
-        system.assertequals(true,ucLst[2].ShippingAddress_del__c,'not true');
-        system.assertequals(acc.BillingState,ucLst[2].State__c,'State not matching');
-        system.assertequals(acc.BillingStreet,ucLst[2].Street__c,'Street not matching');
-        system.assertequals(acc.BillingCity,ucLst[2].City__c,'City not matching');
-        system.assertequals(acc.BillingCountry,ucLst[2].Country__c,'Country not matching');
+        system.assertequals(true,ucLst[1].BillingAddress_del__c,'not true');
+        system.assertequals(true,ucLst[1].Active__c,'not true');
+        system.assertequals(true,ucLst[1].ShippingAddress_del__c,'not true');
+        system.assertequals(acc.BillingState,ucLst[1].State__c,'State not matching');
+        system.assertequals(acc.BillingStreet,ucLst[1].Street__c,'Street not matching');
+        system.assertequals(acc.BillingCity,ucLst[1].City__c,'City not matching');
+        system.assertequals(acc.BillingCountry,ucLst[1].Country__c,'Country not matching');
     }
     
 }

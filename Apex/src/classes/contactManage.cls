@@ -7,8 +7,7 @@ global with sharing class contactManage
     ApexPages.StandardController sc;
     private List<Account> lstAccount=new List<Account>();
     public Integer countAccount;
-    Public String size1 { get; set; }
-    Public String size2 { get; set; }
+    
     public String searchName {get;set;}
     public List<Account> searchList {get;set;}
     public List<Contact> contactids {get;set;}

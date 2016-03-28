@@ -20,13 +20,13 @@ public class LineItemExtension
         
     }
     
-    public List<Invoice_Statement__c> getListContact()
+    /* public List<Invoice_Statement__c> getListContact()
     {
         
         list<Invoice_Statement__c> lstInv = [Select  i.id,i.InvoiceConLookup__r.Phone,i.InvoiceConLookup__r.MailingCity,i.InvoiceConLookup__r.MailingAddress,i.InvoiceConLookup__r.FirstName,i.InvoiceConLookup__r.Email,i.InvoiceConLookup__r.MailingPostalCode,i.InvoiceAccLookup__c, i.Company__c From Invoice_Statement__c i where i.InvoiceConLookup__c =: currentId];
         system.debug(lstInv);
         return lstInv ;
         
-    }
+    } */
     
 }
